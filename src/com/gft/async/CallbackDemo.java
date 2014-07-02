@@ -13,11 +13,11 @@ public class CallbackDemo {
 
 	public static void main(String[] args) throws InterruptedException, IOException {
             Path file = Paths.get("/home/administrator/tests/app.log");
-		try (AsynchronousFileChannel outputfile = AsynchronousFileChannel.open(
+		try (AsynchronousFileChannel readfile = AsynchronousFileChannel.open(
                         file,
 			StandardOpenOption.READ
                 )) {
-			readAll(outputfile, (ByteBuffer) ByteBuffer.allocateDirect(1000).put(new byte[1000]).flip(), 1000L);
+			readAll(readfile, (ByteBuffer) ByteBuffer.allocateDirect(1000).put(new byte[1000]).flip(), 1000L);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -25,17 +25,22 @@ public class CallbackDemo {
 
 	static void readAll(final AsynchronousFileChannel ch, final ByteBuffer dst, long filePosition)
 			throws InterruptedException {
+                //We need threads to wait until the set of operations being performed in other threads completes.
 		final CountDownLatch latch = new CountDownLatch(1);
-
+                /*
+                We use the completion handler to enforce that all bytes 
+                are written or read when we perform I/O operations on an asynchronous channel.
+                */
 		ch.read(dst, filePosition, filePosition, new CompletionHandler<Integer, Long>() {
 			public void completed(Integer bytesTransferred, Long filePosition) {
-                                System.out.println("SUCCESS");
-				if (bytesTransferred > 0) {
-					long p = filePosition + bytesTransferred;
-					ch.read(dst, p, p, this);
-				} else {
-					latch.countDown();
-				}
+                            System.out.println("SUCCESS");
+                            if (bytesTransferred > 0) {
+				long p = filePosition + bytesTransferred;
+				ch.read(dst, p, p, this);
+                            } else {
+                                //Let the threads proceed (Decrements the count of the latch, releasing all waiting threads if the count reaches zero).
+				latch.countDown();
+                            }
 			}
 
 			public void failed(Throwable exc, Long position) {
