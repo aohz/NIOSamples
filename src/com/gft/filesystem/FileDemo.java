@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Arrays;
 import java.util.List;
 
 /*
@@ -17,7 +18,17 @@ snippet demonstrates how open a file (using the Files.newBufferedReader
 method) for reading lines in Java 7.
 */
 public class FileDemo {
+    static String pathLocalRead = "/home/administrator/tests/app.log";
+    static String pathLocalWrite = "/home/administrator/tests/appwrite.log";
+    
     public static void main(String[] args) {
+        try{
+//            openFile();
+//            writeFile();
+            readAllFile();
+        }catch(IOException ioe){
+            
+        }
         
     }
     
@@ -25,11 +36,12 @@ public class FileDemo {
     Opening a file for reading
     */
     static void openFile() throws IOException{
-        Path logFile = Paths.get("/tmp/app.log");
+        Path logFile = Paths.get(pathLocalRead);
         try (BufferedReader reader = Files.newBufferedReader(logFile, StandardCharsets.UTF_8)) {
             String line;
             while ((line = reader.readLine()) != null) {
                //Do something
+                System.out.println(line);
             }
         }
     }
@@ -38,7 +50,7 @@ public class FileDemo {
     Opening a file for writing
     */
     static void writeFile() throws IOException{
-        Path logFile = Paths.get("/tmp/app.log");
+        Path logFile = Paths.get(pathLocalWrite);
         /*
         Note the use of the StandardOpenOption.WRITE , which is one of several varargs Open-
         Option options you can add. This ensures that the file has the correct permissions for
@@ -53,8 +65,10 @@ public class FileDemo {
     A common tasks of reading all of the lines in a file and reading all of the bytes in a file.
     */
     static void readAllFile() throws IOException{
-        Path logFile = Paths.get("/tmp/app.log");
+        Path logFile = Paths.get(pathLocalRead);
         List<String> lines = Files.readAllLines(logFile, StandardCharsets.UTF_8);
         byte[] bytes = Files.readAllBytes(logFile);
+        System.out.println(Arrays.toString(bytes));
+
     }
 }

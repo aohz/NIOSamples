@@ -16,10 +16,13 @@ public class WatchServiceDemo {
         boolean shutdown = false;
         try{
             WatchService watcher = FileSystems.getDefault().newWatchService();
-            Path dir = FileSystems.getDefault().getPath("/usr/lib/samples");
+            Path dir = FileSystems.getDefault().getPath("/home/administrator/tests");
             
             //Watch for modifications
-            WatchKey key = dir.register(watcher, ENTRY_MODIFY);
+            WatchKey key = dir.register(watcher,
+                           ENTRY_CREATE,
+                           ENTRY_DELETE,
+                           ENTRY_MODIFY);
             
             //Get next key and its events
             while(!shutdown){
@@ -35,7 +38,7 @@ public class WatchServiceDemo {
                     ENTRY_DELETE
                     OVERFLOW
                     */
-                    if (event.kind() == ENTRY_MODIFY){
+                    if (event.kind() == ENTRY_CREATE || event.kind() == ENTRY_DELETE || event.kind() == ENTRY_MODIFY){
                         System.out.println("Home dir changed!");
                     }
                 }

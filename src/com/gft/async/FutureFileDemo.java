@@ -7,12 +7,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
 
 
 public class FutureFileDemo {
     public static void main(String[] args) {
         try{
-            Path file = Paths.get("/usr/lib/log.txt");
+            Path file = Paths.get("/home/administrator/tests/app.log");
             //Open file asynchronously
             AsynchronousFileChannel channel = AsynchronousFileChannel.open(file);
             /*
@@ -27,7 +28,7 @@ public class FutureFileDemo {
             thread would continue), or it would wait until the background I/O is complete.
             */
             while(!result.isDone()){
-                //Execute other logic in the MAIN thread
+                //Execute other useful logic in the MAIN thread while the reading is not done
             }
             //Get the result from the async operation
             Integer bytesRead = result.get();
@@ -36,6 +37,8 @@ public class FutureFileDemo {
             System.out.println(e.getMessage());
         }
     }
+    
+    
 }
 
 

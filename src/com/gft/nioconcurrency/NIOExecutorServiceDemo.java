@@ -104,11 +104,7 @@ public class NIOExecutorServiceDemo {
       executor.awaitTermination(60,TimeUnit.SECONDS);
     } catch (InterruptedException e) {
       Thread.currentThread().interrupt();
-    }/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+    }
 
 
     return sumMap;
@@ -161,16 +157,15 @@ public class NIOExecutorServiceDemo {
 
   private static List<List<Integer>> loadDataFromFile()
           throws IOException {
-    Path path = Paths.get("PATH_TO_ARRAYS_CONTENTS");
+    //Path path = Paths.get("PATH_TO_ARRAYS_CONTENTS");/home/administrator/tests
+    Path path = Paths.get("/home/administrator/tests/executor.log");
     List<String> linesInFile = Files.readAllLines(path, Charset.defaultCharset());
     List<List<Integer>> arrays = new ArrayList<>();
     for ( String s : linesInFile){
       String [] sArray = s.split(",");
       List<Integer> integers = new ArrayList<>();
       for ( String sInt : sArray){
-        
         integers.add(Integer.parseInt(sInt));
-        
       }
       arrays.add(integers);
     }
