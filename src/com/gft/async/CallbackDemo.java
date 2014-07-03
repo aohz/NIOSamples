@@ -25,7 +25,9 @@ public class CallbackDemo {
 
 	static void readAll(final AsynchronousFileChannel ch, final ByteBuffer dst, long filePosition)
 			throws InterruptedException {
-                //We need threads to wait until the set of operations being performed in other threads completes.
+                /*
+                We need threads to wait until the set of operations being performed in other threads completes.
+                */
 		final CountDownLatch latch = new CountDownLatch(1);
                 /*
                 We use the completion handler to enforce that all bytes 
@@ -38,7 +40,7 @@ public class CallbackDemo {
 				long p = filePosition + bytesTransferred;
 				ch.read(dst, p, p, this);
                             } else {
-                                //Let the threads proceed (Decrements the count of the latch, releasing all waiting threads if the count reaches zero).
+                                //Let the awaiting thread proceed
 				latch.countDown();
                             }
 			}
