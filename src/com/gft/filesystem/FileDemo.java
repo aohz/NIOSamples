@@ -23,9 +23,9 @@ public class FileDemo {
     
     public static void main(String[] args) {
         try{
-//            openFile();
+            openFile();
 //            writeFile();
-            readAllFile();
+//            readAllFile();
         }catch(IOException ioe){
             
         }

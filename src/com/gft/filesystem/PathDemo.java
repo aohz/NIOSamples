@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 public class PathDemo {
     public static void main(String[] args) {
         //Create absolute Path
-        Path listing = Paths.get("/usr/bin/zip");
+        Path listing = Paths.get("/home/administrator/tests");
         //Get filename
         System.out.println("File Name [" + listing.getFileName() + "]");
         //Get number of elements
